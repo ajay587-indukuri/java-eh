@@ -45,3 +45,5 @@ The snapshot builder installs Java only in a trusted, disposable sandbox, disabl
 ## Limits
 
 The public `/run` endpoint accepts up to 30,000 source characters. Sandbox compilation and execution are each limited to 10 seconds, and returned output is capped. Vercel Sandbox usage is subject to the limits and pricing of the linked Vercel account.
+
+This demo has no application-level request rate limit. Configure Vercel Firewall protections before sharing it widely, since repeated runs consume Sandbox quota.

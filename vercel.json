@@ -3,12 +3,14 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/app.py"
+      "destination": "/api/index"
     }
   ],
   "functions": {
-    "app.py": {
-      "maxDuration": 60
+    "api/index.py": {
+      "maxDuration": 60,
+      "includeFiles": "{*.java,*.html}",
+      "excludeFiles": "{.env*,.venv/**,.vercel/**}"
     }
   }
 }
