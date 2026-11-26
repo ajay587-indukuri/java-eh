@@ -1,0 +1,192 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+10 COMPLETE JAVA EXCEPTION TEST PROGRAMS
+Each example is intended to be pasted and run separately in your Java Exception Handler webpage.
+Each uses the existing EH.runTask() recovery method.
+
+============================================================
+1. ArithmeticException — Division by Zero
+============================================================
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Arithmetic Exception", () -> {
+            int a = 10;
+            int b = 0;
+            int result = a / b;
+            System.out.println(result);
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+2. NullPointerException
+============================================================
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Null Pointer Exception", () -> {
+            String name = null;
+            System.out.println(name.length());
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+3. ArrayIndexOutOfBoundsException
+============================================================
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Array Index Exception", () -> {
+            int[] numbers = {10, 20, 30};
+            System.out.println(numbers[5]);
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+4. StringIndexOutOfBoundsException
+============================================================
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("String Index Exception", () -> {
+            String text = "Java";
+            System.out.println(text.charAt(10));
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+5. NumberFormatException
+============================================================
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Number Format Exception", () -> {
+            String value = "abc";
+            int number = Integer.parseInt(value);
+            System.out.println(number);
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+6. ClassCastException
+============================================================
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Class Cast Exception", () -> {
+            Object value = "Hello Java";
+            Integer number = (Integer) value;
+            System.out.println(number);
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+7. IllegalArgumentException
+============================================================
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Illegal Argument Exception", () -> {
+            Thread.currentThread().setPriority(15);
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+8. NegativeArraySizeException
+============================================================
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Negative Array Size Exception", () -> {
+            int size = -5;
+            int[] numbers = new int[size];
+            System.out.println(numbers.length);
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+9. UnsupportedOperationException
+============================================================
+import java.util.Arrays;
+import java.util.List;
+
+
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Unsupported Operation Exception", () -> {
+            List<Integer> numbers = Arrays.asList(10, 20, 30);
+            numbers.add(40);
+        });
+
+        System.out.println("Program continued");
+    }
+}
+
+
+============================================================
+10. ConcurrentModificationException
+============================================================
+import java.util.ArrayList;
+
+
+public class Main {
+    public static void main(String[] args) {
+        EH.runTask("Concurrent Modification Exception", () -> {
+            ArrayList<Integer> numbers = new ArrayList<>();
+            numbers.add(10);
+            numbers.add(20);
+            numbers.add(30);
+
+            for (Integer number : numbers) {
+                numbers.remove(number);
+            }
+        });
+
+        System.out.println("Program continued");
+    }
+}
