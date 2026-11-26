@@ -12,7 +12,7 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 256 * 1024
 APP_DIR = Path(__file__).resolve().parent
 MAX_CODE_CHARS = 30_000
-MAX_OUTPUT_CHARS = 16_000
+MAX_OUTPUT_BYTES = 16_000
 LOCAL_TIMEOUT_SECONDS = 10
 SANDBOX_TIMEOUT_SECONDS = 10
 
@@ -73,8 +73,8 @@ EXCEPTION_EXPLANATIONS = (
 )
 
 
-class CappedOutput(io.StringIO):
-    def __init__(self, limit=MAX_OUTPUT_CHARS):
+class CappedOutput(io.BytesIO):
+    def __init__(self, limit=MAX_OUTPUT_BYTES):
         super().__init__()
         self.limit = limit
         self.truncated = False
@@ -84,6 +84,9 @@ class CappedOutput(io.StringIO):
         super().write(value[:remaining])
         self.truncated |= len(value) > remaining
         return len(value)
+
+    def text(self):
+        return self.getvalue().decode("utf-8", errors="replace")
 
 
 def _explanation(output):
@@ -148,8 +151,8 @@ def _run_locally(code):
             output = stdout + stderr
             output += "\n[Execution stopped after the 10-second time limit.]"
 
-        if len(output) > MAX_OUTPUT_CHARS:
-            output = output[:MAX_OUTPUT_CHARS] + "\n[Output truncated.]"
+        if len(output) > MAX_OUTPUT_BYTES:
+            output = output[:MAX_OUTPUT_BYTES] + "\n[Output truncated.]"
         return {"output": output, "explanation": _explanation(output)}
 
 
@@ -181,7 +184,7 @@ async def _run_in_sandbox(code, snapshot_id):
             kill_after=SANDBOX_TIMEOUT_SECONDS,
         )
         if compile_result.returncode != 0:
-            output = compile_output.getvalue() or "Compilation did not complete."
+            output = compile_output.text() or "Compilation did not complete."
             return {
                 "output": output,
                 "explanation": "Compilation error. Check your Java code.",
@@ -197,7 +200,7 @@ async def _run_in_sandbox(code, snapshot_id):
             kill_after=SANDBOX_TIMEOUT_SECONDS,
         )
 
-    result = output.getvalue()
+    result = output.text()
     if output.truncated:
         result += "\n[Output truncated.]"
     return {"output": result, "explanation": _explanation(result)}

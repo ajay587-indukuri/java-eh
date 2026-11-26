@@ -22,7 +22,7 @@ async def main():
             sudo=True,
             check=True,
         )
-        await box.update_network_policy(NetworkPolicy.deny_all())
+        await box.update(network_policy=NetworkPolicy.deny_all())
         snapshot = await box.snapshot(expiration=0)
     finally:
         await box.destroy()
